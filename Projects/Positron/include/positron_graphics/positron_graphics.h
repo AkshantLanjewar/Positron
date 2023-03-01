@@ -3,6 +3,8 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
+#include <stdexcept>
+
 namespace PositronGraphics
 {
     class PositronGraphics 
@@ -31,10 +33,17 @@ namespace PositronGraphics
         //function that cleans up memory on death
         void clean();
 
+        //function that creates a vulkan instance
+        void createInstance();
+
     //private member variables
     private:
+        //GLFW's window
         GLFWwindow* window;
         int windowWidth = 1280;
         int windowHeight = 720;
+
+        //vulkan instance
+        VkInstance instance;
     };
 }
