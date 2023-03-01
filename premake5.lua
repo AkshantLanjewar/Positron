@@ -72,8 +72,7 @@ project "Positron"
 	files "Projects/Positron/**"
 
     -- include funcs
-    includeVulkan()
-	includeGLFW()
+    includedirs { "Libraries/Vulkan/Include", "Libraries/GLFW/Include" }
 
 function usePositron()
     -- The library's public headers
@@ -82,6 +81,8 @@ function usePositron()
     -- We link against a library that's in the same workspace, so we can just
 	-- use the project name - premake is really smart and will handle everything for us.
 	links "Positron"
+
+    includedirs { "Libraries/Vulkan/Include", "Libraries/GLFW/Include" }
 
     linkVulkan()
     linkGLFW()

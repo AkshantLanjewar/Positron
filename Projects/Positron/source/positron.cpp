@@ -2,10 +2,10 @@
 
 Positron::Positron()
 {
-
+    _graphics.Run();
 }
 
 Positron::~Positron()
 {
-    
+
 }
