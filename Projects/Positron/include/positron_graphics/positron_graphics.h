@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 
 #include <stdexcept>
+#include <vector>
+#include <string>
+#include <iostream>
 
 namespace PositronGraphics
 {
@@ -26,6 +29,7 @@ namespace PositronGraphics
         */
         void Run();
 
+    //initial member variables
     private:
         //function that initializes vulkan within the graphics object
         void init();
@@ -36,6 +40,35 @@ namespace PositronGraphics
         //function that creates a vulkan instance
         void createInstance();
 
+        //checks if validation layers are available
+        bool checkValidationLayerSupport();
+
+        //get required extensions for instance
+        std::vector<const char*> getRequiredExtensions();
+
+    //debug member variables
+    private:
+        //sets up debug messenger
+        void setupDebugMessenger();
+
+        //create debug vulkan function
+        VkResult CreateDebugUtilsMessengerEXT(
+            VkInstance instance, 
+            const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, 
+            const VkAllocationCallbacks* pAllocator, 
+            VkDebugUtilsMessengerEXT* pDebugMessenger
+        );
+
+        //destroy debug vulkan function
+        void DestroyDebugUtilsMessengerEXT(
+            VkInstance instance, 
+            VkDebugUtilsMessengerEXT debugMessenger, 
+            const VkAllocationCallbacks* pAllocator
+        );
+
+        //this populates the debug create info
+        void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+
     //private member variables
     private:
         //GLFW's window
@@ -45,5 +78,17 @@ namespace PositronGraphics
 
         //vulkan instance
         VkInstance instance;
+        //debug messenger
+        VkDebugUtilsMessengerEXT debugMessenger;
+
+        const std::vector<const char*> validationLayers = {
+            "VK_LAYER_KHRONOS_validation"
+        };
+
+        #ifdef NDEBUG
+            const bool enableValidationLayers = false;
+        #else
+            const bool enableValidationLayers = true;
+        #endif
     };
 }
