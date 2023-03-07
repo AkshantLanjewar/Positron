@@ -31,6 +31,7 @@ namespace PositronGraphics
 
         createInstance();
         setupDebugMessenger();
+        pickPhysicalDevice();
     }
 
     void PositronGraphics::createInstance()

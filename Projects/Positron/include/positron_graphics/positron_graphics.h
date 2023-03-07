@@ -7,9 +7,19 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <map>
+#include <optional>
 
 namespace PositronGraphics
 {
+    struct QueueFamilyIndices {
+        std::optional<uint32_t> graphicsFamily;
+
+        bool isComplete() {
+            return graphicsFamily.has_value();
+        }
+    };
+
     class PositronGraphics 
     {
     public:
@@ -29,7 +39,7 @@ namespace PositronGraphics
         */
         void Run();
 
-    //initial member variables
+    //initial member methods
     private:
         //function that initializes vulkan within the graphics object
         void init();
@@ -46,7 +56,7 @@ namespace PositronGraphics
         //get required extensions for instance
         std::vector<const char*> getRequiredExtensions();
 
-    //debug member variables
+    //debug member methods
     private:
         //sets up debug messenger
         void setupDebugMessenger();
@@ -69,6 +79,20 @@ namespace PositronGraphics
         //this populates the debug create info
         void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 
+    //device member methods
+    private:
+        //picks the vk physical device
+        void pickPhysicalDevice();
+
+        //checks if the device is suitable
+        bool isDeviceSuitable(VkPhysicalDevice device);
+
+        //gives a vulkan device a score based on its aspects
+        int rateDeviceSuitability(VkPhysicalDevice device);
+
+        //finds que families for device
+        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+
     //private member variables
     private:
         //GLFW's window
@@ -80,6 +104,8 @@ namespace PositronGraphics
         VkInstance instance;
         //debug messenger
         VkDebugUtilsMessengerEXT debugMessenger;
+        //this is vulkans physical device
+        VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 
         const std::vector<const char*> validationLayers = {
             "VK_LAYER_KHRONOS_validation"
